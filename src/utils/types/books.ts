@@ -1,4 +1,4 @@
-export interface Books {
+export interface IBook {
   id: number;
   title: string;
   featured: boolean;

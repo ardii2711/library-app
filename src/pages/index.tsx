@@ -3,11 +3,11 @@ import Layout from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getBooks } from "@/utils/apis/books";
-import { Books } from "@/utils/types/books";
+import { IBook } from "@/utils/types/books";
 import { useEffect, useState } from "react";
 
 export default function Index() {
-  const [data, setData] = useState<Books[]>([]);
+  const [data, setData] = useState<IBook[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -15,10 +15,10 @@ export default function Index() {
 
   async function fetchData() {
     try {
-      const response = await getBooks();
-      setData(response.payload.datas);
+      const response = await getBooks()
+      setData(response.payload.datas)
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   }
 

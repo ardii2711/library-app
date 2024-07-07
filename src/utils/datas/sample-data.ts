@@ -1,6 +1,6 @@
-import { Books } from "@/utils/types/books";
+import { IBook } from "@/utils/types/books";
 
-export const bookSampleData: Books[] = [
+export const bookSampleData: IBook[] = [
   {
     id: 1,
     title: "To Kill a Mockingbird",

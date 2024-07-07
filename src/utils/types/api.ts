@@ -1,9 +1,9 @@
-export interface Response<T> {
+export interface IResponse<T> {
   message: string;
   payload: T;
 }
 
-export interface Pagination<T> {
+export interface IPagination<T> {
   totalItems: number;
   datas: T;
   totalPages: number;
