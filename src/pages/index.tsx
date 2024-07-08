@@ -15,8 +15,8 @@ export default function Index() {
 
   async function fetchData() {
     try {
-      const response = await getBooks()
-      setData(response.payload.datas)
+      const response = await getBooks();
+      setData(response.payload.datas);
     } catch (error) {
       alert(error);
     }
@@ -39,7 +39,7 @@ export default function Index() {
           <h2 className="text-2xl font-bold mb-6">Recommended Books</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {data.map((book) => (
-              <BookCard key={book.id} title={book.title} cover_image={book.cover_image} author={book.author} />
+              <BookCard key={book.id} data={book} navigate={`/books/${book.id}`} data-testid={`book-${book.id}`} />
             ))}
           </div>
         </section>
