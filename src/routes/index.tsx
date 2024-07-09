@@ -9,7 +9,6 @@ import BookDetail from "@/pages/books/detail";
 import NotFound from "@/pages/not-found";
 import ProtectedRoute from "./protected-route";
 
-
 export default function Router() {
   const router = createBrowserRouter([
     {
@@ -53,12 +52,12 @@ export default function Router() {
         {
           path: "/history-borrow",
           loader: () => "History Borrow | Library App",
-          element: <BookDetail />, // TODO: Change to history borrow
+          element: <BookDetail />,
         },
         {
           path: "/dashboard",
           loader: () => "Dashboard | Library App",
-          element: <BookDetail />, // TODO: Change to admin dashboard
+          element: <BookDetail />,
         },
         {
           path: "*",

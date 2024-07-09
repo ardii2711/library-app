@@ -2,9 +2,11 @@ import Layout from "@/components/layout";
 import { getDetailBook } from "@/utils/apis/books";
 import { IBook } from "@/utils/types/books";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const DetailBook = () => {
   const [data, setData] = useState<IBook>();
+  const params = useParams();
 
   useEffect(() => {
     fetchData();
@@ -12,7 +14,7 @@ const DetailBook = () => {
 
   async function fetchData() {
     try {
-      const response = await getDetailBook(1);
+      const response = await getDetailBook(+params.id_book!);
       setData(response.payload);
     } catch (error) {
       alert(error);

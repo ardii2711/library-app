@@ -9,7 +9,7 @@ const ProtectedRoute = () => {
   const protectedByToken = [
     "/profile",
     "/profile/edit",
-    "history-borrow",
+    "/history-borrow",
     "/dashboard",
   ];
   const adminProtected = ["/dashboard"];

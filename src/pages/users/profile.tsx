@@ -1,22 +1,30 @@
-import { IUser } from "@/utils/types/users";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Layout from "@/components/layout";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import BorrowBookCard from "@/components/borrow-book-card";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import Layout from "@/components/layout";
+
+import { ProfileType } from "@/utils/types/users";
+import { IBorrow } from "@/utils/types/borrows";
+
 import { getBorrows } from "@/utils/apis/borrows";
 import { getProfile } from "@/utils/apis/users";
-import { IBorrow } from "@/utils/types/borrows";
-import BorrowBookCard from "@/components/borrow-book-card";
 
 function Profile() {
-  const [data, setData] = useState<IUser>();
+  const [data, setData] = useState<ProfileType>();
   const [borrow, setBorrow] = useState<IBorrow[]>([]);
 
   useEffect(() => {
     fetchData();
     fetchBorrows();
   }, []);
+
+  function formatDate(dateString: string) {
+    return dateString.split('T')[0];
+  }
 
   async function fetchData() {
     try {
@@ -53,7 +61,7 @@ function Profile() {
             <p className="text-muted-foreground">{data?.email}</p>
           </div>
           <Button variant="outline" className="justify-self-end">
-            Edit Profile
+            <Link to={"/profile/edit"}>Edit Profile</Link>
           </Button>
           <Separator />
           <div className="grid gap-4">
@@ -72,7 +80,8 @@ function Profile() {
                   key={borrow.id}
                   title={borrow.book.title}
                   cover_image={borrow.book.cover_image}
-                  due_date={borrow.due_date}
+                  due_date={formatDate(borrow.due_date)}
+                  borrow_date={formatDate(borrow.borrow_date)}
                 />
               ))}
             </div>

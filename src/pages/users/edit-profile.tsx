@@ -1,18 +1,29 @@
-import { useEffect, useState } from "react";
-import { FaUpload } from "react-icons/fa";
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 
-import Layout from "@/components/layout";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { deleteProfile, getProfile, updateProfile } from "@/utils/apis/users";
-import { ProfileSchema } from "@/utils/types/users";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
+import Layout from '@/components/layout';
 
-const EditProfile = () => {
-  const [data, setData] = useState<ProfileSchema>();
+import { deleteProfile, getProfile, updateProfile } from '@/utils/apis/users';
+import { ProfileSchema, profileSchema } from '@/utils/types/users';
+import { CustomFormField } from '@/components/custom-formfield';
+
+function EditProfile() {
+  const form = useForm<ProfileSchema>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      full_name: '',
+      email: '',
+      password: '',
+      address: '',
+      phone_number: '',
+      profile_picture: new File([], ''),
+    },
+  });
 
   useEffect(() => {
     fetchData();
@@ -23,20 +34,18 @@ const EditProfile = () => {
       const response = await getProfile();
       const profile = response.payload;
 
-      setData({
-        address: profile.address,
-        email: profile.email,
-        full_name: profile.full_name,
-        phone_number: profile.phone_number,
-      });
+      form.setValue('address', profile.address);
+      form.setValue('email', profile.email);
+      form.setValue('full_name', profile.full_name);
+      form.setValue('phone_number', profile.phone_number);
     } catch (error) {
       alert(error);
     }
   }
 
-  async function handleUpdate() {
+  async function handleUpdate(data: ProfileSchema) {
     try {
-      const response = await updateProfile(data!);
+      const response = await updateProfile(data);
 
       alert(response.message);
     } catch (error) {
@@ -63,59 +72,96 @@ const EditProfile = () => {
             <CardDescription>Update your profile information.</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6">
-            <div className="grid grid-cols-2 gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input id="name" placeholder="Enter your full name" defaultValue={data?.full_name} />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" placeholder="Enter your email" type="email" defaultValue={data?.email} />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input id="password" placeholder="Enter your password" type="password" />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" placeholder="Enter your phone number" defaultValue={data?.phone_number} />
-              </div>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="address">Address</Label>
-              <Textarea
-                id="address"
-                placeholder="Enter your address"
-                className="min-h-[100px]"
-                defaultValue={data?.address}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="profile-picture">Profile Picture</Label>
-              <div className="flex items-center gap-4">
-                <Avatar className="h-16 w-16 flex justify-center object-cover overflow-hidden items-center bg-slate-100 rounded-full">
-                  <AvatarImage src={"/placeholder-user.jpg"} />
-                  <AvatarFallback>JD</AvatarFallback>
-                </Avatar>
-                <Button variant="outline">
-                  <FaUpload className="h-4 w-4 mr-2" />
-                  Upload New Photo
-                </Button>
-              </div>
-            </div>
+            <Form {...form}>
+              <form id="form-update" data-testid="form-update" onSubmit={form.handleSubmit(handleUpdate)} className="space-y-4">
+                <CustomFormField control={form.control} name="email" label="Email">
+                  {(field) => (
+                    <Input
+                      {...field}
+                      data-testid="input-email"
+                      placeholder="johndoe@mail.com"
+                      type="email"
+                      disabled={form.formState.isSubmitting}
+                      aria-disabled={form.formState.isSubmitting}
+                      value={field.value as string}
+                    />
+                  )}
+                </CustomFormField>
+                <CustomFormField control={form.control} name="full_name" label="Full Name">
+                  {(field) => (
+                    <Input
+                      {...field}
+                      data-testid="input-full-name"
+                      placeholder="John Doe"
+                      disabled={form.formState.isSubmitting}
+                      aria-disabled={form.formState.isSubmitting}
+                      value={field.value as string}
+                    />
+                  )}
+                </CustomFormField>
+                <CustomFormField control={form.control} name="password" label="Password">
+                  {(field) => (
+                    <Input
+                      {...field}
+                      data-testid="input-password"
+                      placeholder="Password"
+                      type="password"
+                      disabled={form.formState.isSubmitting}
+                      aria-disabled={form.formState.isSubmitting}
+                      value={field.value as string}
+                    />
+                  )}
+                </CustomFormField>
+                <CustomFormField control={form.control} name="address" label="Address">
+                  {(field) => (
+                    <Input
+                      {...field}
+                      data-testid="input-address"
+                      placeholder="Lorem Ipsum Street"
+                      disabled={form.formState.isSubmitting}
+                      aria-disabled={form.formState.isSubmitting}
+                      value={field.value as string}
+                    />
+                  )}
+                </CustomFormField>
+                <CustomFormField control={form.control} name="phone_number" label="Phone Number">
+                  {(field) => (
+                    <Input
+                      {...field}
+                      data-testid="input-phone-number"
+                      placeholder="+628xxxxxxxx"
+                      disabled={form.formState.isSubmitting}
+                      aria-disabled={form.formState.isSubmitting}
+                      value={field.value as string}
+                    />
+                  )}
+                </CustomFormField>
+                <CustomFormField control={form.control} name="profile_picture" label="Profile Picture">
+                  {(field) => (
+                    <Input
+                      data-testid="input-profile-picture"
+                      type="file"
+                      disabled={form.formState.isSubmitting}
+                      aria-disabled={form.formState.isSubmitting}
+                      onChange={(e) => field.onChange(e.target.files ? e.target.files[0] : null)}
+                    />
+                  )}
+                </CustomFormField>
+              </form>
+            </Form>
           </CardContent>
           <CardFooter className="flex justify-end gap-2">
             <Button variant="destructive" onClick={() => handleDelete()}>
               Delete Account
             </Button>
-            <Button onClick={() => handleUpdate()}>Save Changes</Button>
+            <Button type="submit" form="form-update">
+              Save Changes
+            </Button>
           </CardFooter>
         </Card>
       </div>
     </Layout>
   );
-};
+}
 
 export default EditProfile;
