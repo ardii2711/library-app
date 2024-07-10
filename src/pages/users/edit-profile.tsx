@@ -43,6 +43,7 @@ function EditProfile() {
       const response = await updateProfile(data);
 
       toast.success(response.message);
+      navigate('/profile');
     } catch (error) {
       toast.error((error as Error).message);
     }

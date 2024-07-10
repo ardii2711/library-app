@@ -43,7 +43,7 @@ export default function Header() {
                 </DropdownMenuItem>
                 {user?.role === 'admin' ? (
                   <DropdownMenuItem asChild>
-                    <Link to="/profile/edit">Dashboard</Link>
+                    <Link to="/dashboard">Dashboard</Link>
                   </DropdownMenuItem>
                 ) : null}
                 <DropdownMenuSeparator />
