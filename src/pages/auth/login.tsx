@@ -1,18 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { Form } from '@/components/ui/form';
-import Layout from '@/components/layout';
+import { CustomFormField } from '@/components/custom-formfield';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { userLogin } from '@/utils/apis/auth';
+import { Form } from '@/components/ui/form';
+import Layout from '@/components/layout';
+
 import { loginSchema, LoginSchema } from '@/utils/types/auth';
-import { CustomFormField } from '@/components/custom-formfield';
+import { useToken } from '@/utils/contexts/token';
+import { userLogin } from '@/utils/apis/auth';
 
 function Login() {
+  const { changeToken } = useToken();
   const navigate = useNavigate();
 
   const form = useForm<LoginSchema>({
@@ -27,7 +29,7 @@ function Login() {
     try {
       const response = await userLogin(data);
 
-      Cookies.set('token', response.payload.token);
+      changeToken(response.payload.token);
       toast.success(response.message);
       navigate('/');
     } catch (error) {

@@ -1,16 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import Layout from '@/components/layout';
-import { Form } from '@/components/ui/form';
+import { CustomFormField } from '@/components/custom-formfield';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { CustomFormField } from '@/components/custom-formfield';
+import { Form } from '@/components/ui/form';
+import Layout from '@/components/layout';
 
-import { userRegister } from '@/utils/apis/auth';
 import { registerSchema, RegisterSchema } from '@/utils/types/auth';
+import { userRegister } from '@/utils/apis/auth';
 
 function Register() {
   const navigate = useNavigate();
@@ -130,7 +130,7 @@ function Register() {
           </Form>
           <div className="text-center">
             <p className="text-muted-foreground">
-              Don't have an account?{' '}
+              Already have an account?{' '}
               <Link to={'/login'} className="font-medium text-primary hover:underline">
                 Sign in
               </Link>

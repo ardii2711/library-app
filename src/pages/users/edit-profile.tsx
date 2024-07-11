@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,11 +10,15 @@ import { Input } from '@/components/ui/input';
 import { Form } from '@/components/ui/form';
 import Layout from '@/components/layout';
 
-import { deleteProfile, getProfile, updateProfile } from '@/utils/apis/users';
 import { ProfileSchema, profileSchema } from '@/utils/types/users';
+import { deleteProfile, updateProfile } from '@/utils/apis/users';
 import { CustomFormField } from '@/components/custom-formfield';
+import { useToken } from '@/utils/contexts/token';
 
 function EditProfile() {
+  const { user, changeToken } = useToken();
+  const navigate = useNavigate();
+
   const form = useForm<ProfileSchema>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -26,30 +32,20 @@ function EditProfile() {
   });
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  async function fetchData() {
-    try {
-      const response = await getProfile();
-      const profile = response.payload;
-
-      form.setValue('address', profile.address);
-      form.setValue('email', profile.email);
-      form.setValue('full_name', profile.full_name);
-      form.setValue('phone_number', profile.phone_number);
-    } catch (error) {
-      alert(error);
-    }
-  }
+    form.setValue('address', user?.address ?? '');
+    form.setValue('email', user?.email ?? '');
+    form.setValue('full_name', user?.full_name ?? '');
+    form.setValue('phone_number', user?.phone_number ?? '');
+  }, [user]);
 
   async function handleUpdate(data: ProfileSchema) {
     try {
       const response = await updateProfile(data);
 
-      alert(response.message);
+      toast.success(response.message);
+      navigate('/profile');
     } catch (error) {
-      alert(error);
+      toast.error((error as Error).message);
     }
   }
 
@@ -57,9 +53,11 @@ function EditProfile() {
     try {
       const response = await deleteProfile();
 
-      alert(response.message);
+      toast.success(response.message);
+      changeToken();
+      navigate('/login');
     } catch (error) {
-      alert(error);
+      toast.error((error as Error).message);
     }
   }
 

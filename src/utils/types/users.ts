@@ -17,6 +17,8 @@ export const profileSchema = z.object({
 
 export type RoleType = 'user' | 'admin';
 
+export type ProfileSchema = z.infer<typeof profileSchema>;
+
 export interface ProfileType {
   id: number;
   full_name: string;
@@ -26,5 +28,3 @@ export interface ProfileType {
   address: string;
   phone_number: string;
 }
-
-export type ProfileSchema = z.infer<typeof profileSchema>;
