@@ -1,0 +1,51 @@
+import * as z from 'zod';
+
+import { ACCEPTED_IMAGE_TYPES, MAX_MB, MAX_UPLOAD_SIZE } from '../const';
+
+const base = z.object({
+  title: z.string().min(1, { message: 'Title is required' }),
+  feature: z.boolean().optional(),
+  author: z.string().min(1, { message: 'Author is required' }),
+  isbn: z
+    .string()
+    .regex(/^(978|979)/u, 'The ISBN format is invalid')
+    .min(13, { message: 'ISBN minimum length is 13' }),
+  category: z.string().min(1, { message: 'Category is required' }),
+  description: z.string().min(1, { message: 'Description is required' }),
+});
+
+export const addBookSchema = z
+  .object({
+    cover_image: z
+      .instanceof(File)
+      .refine((file) => !file || file.size <= MAX_UPLOAD_SIZE, `Max image size is ${MAX_MB}MB`)
+      .refine((file) => !file || file.type === '' || ACCEPTED_IMAGE_TYPES.includes(file.type), 'Only .jpg, .jpeg, and .png formats are supported'),
+  })
+  .merge(base);
+
+export const editBookSchema = z
+  .object({
+    cover_image: z
+      .instanceof(File)
+      .optional()
+      .refine((file) => !file || file.size <= MAX_UPLOAD_SIZE, `Max image size is ${MAX_MB}MB`)
+      .refine((file) => !file || file.type === '' || ACCEPTED_IMAGE_TYPES.includes(file.type), 'Only .jpg, .jpeg, and .png formats are supported'),
+  })
+  .merge(base);
+
+export type AddBookSchema = z.infer<typeof addBookSchema>;
+export type EditBookSchema = z.infer<typeof editBookSchema>;
+
+export interface IBook {
+  id: number;
+  title: string;
+  featured: boolean;
+  author: string;
+  isbn: string;
+  category: string;
+  description: string;
+  cover_image: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: null | string;
+}

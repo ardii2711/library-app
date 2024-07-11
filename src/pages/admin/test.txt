@@ -1,0 +1,176 @@
+import { useNavigate, useParams } from 'react-router-dom';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+
+import { borrowPayload, BorrowPayload, IBorrow } from '@/utils/types/borrows';
+import { getBorrows, updateBorrow } from '@/utils/apis/borrows';
+import Layout from '@/components/layout';
+import { CustomFormDatePicker } from '@/components/custom-formfield';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+
+function EditBorrow() {
+  const [borrow, setBorrow] = useState<IBorrow[]>([]);
+  const navigate = useNavigate();
+  const params = useParams();
+
+  const form = useForm<BorrowPayload>({
+    resolver: zodResolver(borrowPayload),
+    defaultValues: {
+      borrow_date: new Date(),
+      due_date: new Date(),
+      return_date: undefined,
+    },
+  });
+
+  useEffect(() => {
+    fetchBorrow();
+  }, []);
+
+  useEffect(() => {
+    const selectedBorrow = borrow.find((borrow) => borrow.id === Number(params.id_borrow));
+    if (selectedBorrow) {
+      form.setValue('borrow_date', new Date(selectedBorrow.borrow_date));
+      form.setValue('due_date', new Date(selectedBorrow.due_date));
+      form.setValue('return_date', selectedBorrow.return_date ? new Date(selectedBorrow.return_date) : undefined);
+    }
+  }, [borrow, params.id_borrow]);
+
+  async function onSubmit(data: BorrowPayload) {
+    try {
+      const response = await updateBorrow(Number(params.id_borrow), data);
+      toast.success(response.message);
+      navigate('/dashboard/borrows');
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+  }
+
+  async function fetchBorrow() {
+    try {
+      const response = await getBorrows();
+      setBorrow(response.payload.datas);
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+  }
+
+  return (
+    <Layout>
+      <div className="flex justify-center my-8">
+        <Card className="w-full max-w-2xl">
+          <CardHeader>
+            <CardTitle>Edit Borrow</CardTitle>
+            <CardDescription>Update Your Borrow Information</CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-6">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <CustomFormDatePicker control={form.control} name="borrow_date" label="Borrow Date" placeholder="Select Borrow Date" />
+                <CustomFormDatePicker control={form.control} name="due_date" label="Due Date" placeholder="Select Due Date" />
+                <CustomFormDatePicker control={form.control} name="return_date" label="Return Date" placeholder="Select Return Date" />
+                <DialogFooter>
+                  <Button type="submit" disabled={form.formState.isSubmitting} aria-disabled={form.formState.isSubmitting}>
+                    Save Borrow
+                  </Button>
+                </DialogFooter>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      </div>
+    </Layout>
+  );
+}
+
+export default EditBorrow;
+
+
+
+
+
+
+
+
+
+import axios from 'axios';
+
+import { BorrowPayload, BorrowSchema, IBorrow } from '../types/borrows';
+import { IPagination, IResponse } from '../types/api';
+import axiosWithConfig from './axios-with-config';
+import { checkProperty, valueFormatData } from '../functions';
+
+export const getBorrows = async () => {
+  try {
+    const response = await axiosWithConfig.get('/borrows');
+
+    return response.data as IResponse<IPagination<IBorrow[]>>;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.data) {
+        const message = (error.response.data as { message: string }).message;
+        throw new Error(message);
+      }
+    }
+    throw new Error('An unexpected error occurred');
+  }
+};
+
+export const postBorrow = async (body: BorrowSchema) => {
+  try {
+    const response = await axiosWithConfig.post('/borrows', body);
+
+    return response.data as IResponse<undefined>;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.data) {
+        const message = (error.response.data as { message: string }).message;
+        throw new Error(message);
+      }
+    }
+    throw new Error('An unexpected error occurred');
+  }
+};
+
+export const updateBorrow = async (id_borrow: number, body: BorrowPayload) => {
+  try {
+    const formData = new FormData();
+    let key: keyof typeof body;
+
+    for (key in body) {
+      if (checkProperty(body[key])) {
+        formData.append(key, valueFormatData(body[key]));
+      }
+    }
+
+    const response = await axiosWithConfig.put(`/borrows/${id_borrow}`, formData);
+    return response.data as IResponse<IBorrow>;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.data) {
+        const message = (error.response.data as { message: string }).message;
+        throw new Error(message);
+      }
+    }
+    throw new Error('An unexpected error occurred');
+  }
+};
+
+export const deleteBorrow = async (id_borrow: number) => {
+  try {
+    const response = await axiosWithConfig.delete(`/borrows/${id_borrow}`);
+    return response.data as IResponse<undefined>;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.data) {
+        const message = (error.response.data as { message: string }).message;
+        throw new Error(message);
+      }
+    }
+    throw new Error('An unexpected error occurred');
+  }
+};
