@@ -1,9 +1,10 @@
-import { FaBookOpen, FaUser } from 'react-icons/fa';
+import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { toast } from 'sonner';
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { Button } from './ui/button';
 
 import { useToken } from '@/utils/contexts/token';
 
@@ -20,10 +21,17 @@ export default function Header() {
   return (
     <header className="bg-primary text-primary-foreground py-4 px-6 flex items-center justify-between">
       <Link to={'/books'} className="flex items-center gap-2">
-        <FaBookOpen width={24} height={24} className="h-6 w-6" />
+        <img src="/icons-book.png" width={24} height={24} className="h-6 w-6" />
         <span className="text-xl font-bold">BookQuest</span>
       </Link>
       <div className="flex items-center gap-4">
+        {user?.role === 'user' ? (
+          <Button variant="default" asChild>
+            <Link to="/cart">
+              <FaShoppingCart size={25} />
+            </Link>
+          </Button>
+        ) : null}
         <DropdownMenu>
           {token ? (
             <>

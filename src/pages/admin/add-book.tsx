@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -15,6 +16,7 @@ import { addBook } from '@/utils/apis/books';
 
 export default function AddBook() {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   const form = useForm<AddBookSchema>({
     resolver: zodResolver(addBookSchema),
@@ -33,6 +35,7 @@ export default function AddBook() {
       const response = await addBook(data);
 
       toast.success(response.message);
+      setOpen(false);
       navigate('/dashboard');
     } catch (error) {
       toast.error((error as Error).message);
@@ -40,9 +43,11 @@ export default function AddBook() {
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default">Add Book</Button>
+        <Button variant="default" onClick={() => setOpen(true)}>
+          Add Book
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>

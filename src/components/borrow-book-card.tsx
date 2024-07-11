@@ -1,4 +1,4 @@
-import { Card, CardContent, CardFooter } from "./ui/card";
+import { Card, CardContent } from './ui/card';
 
 interface Props {
   title: string;
@@ -9,15 +9,17 @@ interface Props {
 
 const BorrowBookCard = (props: Props) => {
   return (
-    <Card className="bg-muted rounded-lg overflow-hidden">
-      <CardContent className="flex flex-col gap-2 pt-6 justify-center items-center">
-        <img src={props.cover_image} width={200} height={300} alt="Book Cover" className="aspect-[2/3] object-cover" />
-        <div className="font-semibold text-center">{props.title}</div>
+    <Card>
+      <CardContent className="flex flex-col gap-2">
+        <div className="w-full aspect-[2/3] rounded-lg overflow-hidden mt-4">
+          <img src={props.cover_image} alt="Book Cover" width={300} height={450} className="w-full h-full object-cover" />
+        </div>
+        <div className="grid gap-1">
+          <div className="text-base font-medium">{props.title}</div>
+          <div className="text-sm text-muted-foreground">Borrowed: {props.borrow_date}</div>
+          <div className="text-sm text-muted-foreground">Due: {props.due_date}</div>
+        </div>
       </CardContent>
-      <CardFooter className="bg-background/50 px-4 py-2 flex items-center justify-between">
-        <div className="text-sm text-muted-foreground">Due: {props.due_date}</div>
-        <div className="text-sm text-muted-foreground">Borrow: {props.borrow_date}</div>
-      </CardFooter>
     </Card>
   );
 };

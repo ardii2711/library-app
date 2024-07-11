@@ -7,6 +7,7 @@ import Profile from '@/pages/users/profile';
 import EditProfile from '@/pages/users/edit-profile';
 import BookDetail from '@/pages/books/detail';
 import AdminPage from '@/pages/admin';
+import CartPage from '@/pages/cart';
 import NotFound from '@/pages/not-found';
 import ProtectedRoute from './protected-route';
 
@@ -51,14 +52,24 @@ export default function Router() {
           element: <BookDetail />,
         },
         {
-          path: '/history-borrow',
-          loader: () => 'History Borrow | Library App',
-          element: <BookDetail />,
-        },
-        {
           path: '/dashboard',
           loader: () => 'Dashboard | Library App',
           element: <AdminPage />,
+        },
+        {
+          path: '/dashboard/books',
+          loader: () => 'Admin Books | Library App',
+          element: <AdminPage />,
+        },
+        {
+          path: '/dashboard/borrows',
+          loader: () => 'Admin Borrows | Library App',
+          element: <AdminPage />,
+        },
+        {
+          path: '/cart',
+          loader: () => 'Cart | Library App',
+          element: <CartPage />,
         },
         {
           path: '*',

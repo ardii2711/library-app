@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import { IPagination, IResponse } from '@/utils/types/api';
-import { AddBookSchema, IBook } from '@/utils/types/books';
-import axiosWithConfig from './axios-with-config';
+import { AddBookSchema, EditBookSchema, IBook } from '@/utils/types/books';
 import { checkProperty, valueFormatData } from '../functions';
+import { IPagination, IResponse } from '@/utils/types/api';
+import axiosWithConfig from './axios-with-config';
 
 export const getBooks = async () => {
   try {
@@ -60,5 +60,41 @@ export const addBook = async (body: AddBookSchema) => {
   }
 };
 
-// export const editBook = () => {};
-// export const deleteBook = () => {};
+export const updateBook = async (body: EditBookSchema) => {
+  try {
+    const formData = new FormData();
+    let key: keyof typeof body;
+
+    for (key in body) {
+      if (checkProperty(body[key])) {
+        formData.append(key, valueFormatData(body[key]));
+      }
+    }
+
+    const response = await axiosWithConfig.put('/books', formData);
+    return response.data as IResponse<IBook>;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.data) {
+        const message = (error.response.data as { message: string }).message;
+        throw new Error(message);
+      }
+    }
+    throw new Error('An unexpected error occurred');
+  }
+};
+
+export const deleteBook = async (id_book: number) => {
+  try {
+    const response = await axiosWithConfig.delete(`/books/${id_book}`);
+    return response.data as IResponse<IBook>;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.data) {
+        const message = (error.response.data as { message: string }).message;
+        throw new Error(message);
+      }
+    }
+    throw new Error('An unexpected error occurred');
+  }
+};

@@ -16,7 +16,6 @@ const base = z.object({
 
 export const addBookSchema = z
   .object({
-    // mode: z.literal("add"),
     cover_image: z
       .instanceof(File)
       .refine((file) => !file || file.size <= MAX_UPLOAD_SIZE, `Max image size is ${MAX_MB}MB`)
@@ -26,7 +25,6 @@ export const addBookSchema = z
 
 export const editBookSchema = z
   .object({
-    // mode: z.literal('edit'),
     cover_image: z
       .instanceof(File)
       .optional()
@@ -34,9 +32,6 @@ export const editBookSchema = z
       .refine((file) => !file || file.type === '' || ACCEPTED_IMAGE_TYPES.includes(file.type), 'Only .jpg, .jpeg, and .png formats are supported'),
   })
   .merge(base);
-
-// export const bookSchema = z.discriminatedUnion("mode", [addBookSchema, editBookSchema]);
-// export type BookSchema = z.infer<typeof bookSchema>;
 
 export type AddBookSchema = z.infer<typeof addBookSchema>;
 export type EditBookSchema = z.infer<typeof editBookSchema>;

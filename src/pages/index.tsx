@@ -1,10 +1,12 @@
-import BookCard from "@/components/book-card";
-import Layout from "@/components/layout";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { getBooks } from "@/utils/apis/books";
-import { IBook } from "@/utils/types/books";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import BookCard from '@/components/book-card';
+import Layout from '@/components/layout';
+
+import { getBooks } from '@/utils/apis/books';
+import { IBook } from '@/utils/types/books';
 
 export default function Index() {
   const [data, setData] = useState<IBook[]>([]);
