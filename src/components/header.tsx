@@ -13,9 +13,10 @@ import { ModeToggle } from './mode-toggle';
 
 export default function Header() {
   const { token, user, changeToken } = useToken();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
   const navigate = useNavigate();
+
+  setTheme(theme);
 
   function handleLogout() {
     changeToken();
