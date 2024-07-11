@@ -6,7 +6,10 @@ import Register from '@/pages/auth/register';
 import Profile from '@/pages/users/profile';
 import EditProfile from '@/pages/users/edit-profile';
 import BookDetail from '@/pages/books/detail';
-import AdminPage from '@/pages/admin';
+import AdminBookPage from '@/pages/admin/books';
+import AdminBorrowPage from '@/pages/admin/borrows';
+import EditBookPage from '@/pages/admin/edit-book';
+import EditBorrowPage from '@/pages/admin/edit-borrow';
 import CartPage from '@/pages/cart';
 import NotFound from '@/pages/not-found';
 import ProtectedRoute from './protected-route';
@@ -52,19 +55,24 @@ export default function Router() {
           element: <BookDetail />,
         },
         {
-          path: '/dashboard',
-          loader: () => 'Dashboard | Library App',
-          element: <AdminPage />,
-        },
-        {
           path: '/dashboard/books',
           loader: () => 'Admin Books | Library App',
-          element: <AdminPage />,
+          element: <AdminBookPage />,
         },
         {
           path: '/dashboard/borrows',
           loader: () => 'Admin Borrows | Library App',
-          element: <AdminPage />,
+          element: <AdminBorrowPage />,
+        },
+        {
+          path: '/dashboard/books/:id_book',
+          loader: () => 'Admin Books | Library App',
+          element: <EditBookPage />,
+        },
+        {
+          path: '/dashboard/borrows/:id_borrow',
+          loader: () => 'Admin Books | Library App',
+          element: <EditBorrowPage />,
         },
         {
           path: '/cart',

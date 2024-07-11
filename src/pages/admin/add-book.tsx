@@ -36,7 +36,7 @@ export default function AddBook() {
 
       toast.success(response.message);
       setOpen(false);
-      navigate('/dashboard');
+      navigate('/dashboard/books');
     } catch (error) {
       toast.error((error as Error).message);
     }
@@ -119,6 +119,7 @@ export default function AddBook() {
                   disabled={form.formState.isSubmitting}
                   aria-disabled={form.formState.isSubmitting}
                   value={field.value as string}
+                  className="h-32"
                 />
               )}
             </CustomFormField>

@@ -60,7 +60,7 @@ export const addBook = async (body: AddBookSchema) => {
   }
 };
 
-export const updateBook = async (body: EditBookSchema) => {
+export const updateBook = async (id_book: number, body: EditBookSchema) => {
   try {
     const formData = new FormData();
     let key: keyof typeof body;
@@ -71,7 +71,7 @@ export const updateBook = async (body: EditBookSchema) => {
       }
     }
 
-    const response = await axiosWithConfig.put('/books', formData);
+    const response = await axiosWithConfig.put(`/books/${id_book}`, formData);
     return response.data as IResponse<IBook>;
   } catch (error) {
     if (axios.isAxiosError(error)) {
