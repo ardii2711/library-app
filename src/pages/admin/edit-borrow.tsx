@@ -1,18 +1,18 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
+import { useNavigate, useParams } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { CustomFormDatePicker } from '@/components/custom-formfield';
-import { DialogFooter } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
-import Layout from '@/components/layout';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { CustomFormDatePicker } from "@/components/custom-formfield";
+import { DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import Layout from "@/components/layout";
 
-import { borrowPayload, BorrowPayload, IBorrow } from '@/utils/types/borrows';
-import { getBorrowById, updateBorrow } from '@/utils/apis/borrows';
+import { borrowPayload, BorrowPayload, IBorrow } from "@/utils/types/borrows";
+import { getBorrowById, updateBorrow } from "@/utils/apis/borrows";
 
 function EditBorrow() {
   const [borrow, setBorrow] = useState<IBorrow>();
@@ -36,9 +36,9 @@ function EditBorrow() {
 
   useEffect(() => {
     if (borrow) {
-      form.setValue('borrow_date', new Date(borrow.borrow_date));
-      form.setValue('due_date', new Date(borrow.due_date));
-      form.setValue('return_date', borrow.return_date ? new Date(borrow.return_date) : undefined);
+      form.setValue("borrow_date", new Date(borrow.borrow_date));
+      form.setValue("due_date", new Date(borrow.due_date));
+      form.setValue("return_date", borrow.return_date ? new Date(borrow.return_date) : undefined);
     }
   }, [borrow]);
 
@@ -51,8 +51,8 @@ function EditBorrow() {
         return_date: data.return_date ? new Date(data.return_date) : undefined,
       };
       await updateBorrow(Number(params.id_borrow), updatedData);
-      toast.success('Borrow updated successfully');
-      navigate('/dashboard/borrows');
+      toast.success("Borrow updated successfully");
+      navigate("/dashboard/borrows");
     } catch (error) {
       toast.error((error as Error).message);
     }

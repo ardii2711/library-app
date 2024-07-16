@@ -1,6 +1,6 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-import { IBook } from '@/utils/types/books';
+import { IBook } from "@/utils/types/books";
 
 interface CartState {
   cart: IBook[];
@@ -10,22 +10,22 @@ interface CartState {
 }
 
 const useCartStore = create<CartState>()((set) => ({
-  cart: JSON.parse(localStorage.getItem('cart') ?? '[]'),
+  cart: JSON.parse(localStorage.getItem("cart") ?? "[]"),
   addItem: (book) =>
     set((state) => {
       const newState = [...state.cart, book];
-      localStorage.setItem('cart', JSON.stringify(newState));
+      localStorage.setItem("cart", JSON.stringify(newState));
       return { cart: newState };
     }),
   removeItem: (book) =>
     set((state) => {
       const newCart = state.cart.filter((item) => item.id !== book.id);
-      localStorage.setItem('cart', JSON.stringify(newCart));
+      localStorage.setItem("cart", JSON.stringify(newCart));
       return { cart: newCart };
     }),
   clearCart: () =>
     set(() => {
-      localStorage.removeItem('cart');
+      localStorage.removeItem("cart");
       return { cart: [] };
     }),
 }));

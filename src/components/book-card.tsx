@@ -1,5 +1,6 @@
-import { IBook } from "@/utils/types/books";
 import { Link } from "react-router-dom";
+
+import { IBook } from "@/utils/types/books";
 
 interface Props {
   data: IBook;

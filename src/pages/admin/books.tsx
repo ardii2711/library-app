@@ -1,18 +1,18 @@
-import { CheckIcon, FilePenIcon, SearchIcon, TrashIcon, XIcon } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { toast } from 'sonner';
+import { CheckIcon, FilePenIcon, SearchIcon, TrashIcon, XIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
-import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/ui/table';
-import CustomAlert from '@/components/custom-alert';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import Layout from '@/components/layout';
-import AddBook from './add-book';
+import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "@/components/ui/table";
+import CustomAlert from "@/components/custom-alert";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Layout from "@/components/layout";
+import AddBook from "./add-book";
 
-import { deleteBook, getBooks } from '@/utils/apis/books';
-import { IBook } from '@/utils/types/books';
+import { deleteBook, getBooks } from "@/utils/apis/books";
+import { IBook } from "@/utils/types/books";
 
 export default function AdminBooks() {
   const [data, setData] = useState<IBook[]>([]);
@@ -36,7 +36,7 @@ export default function AdminBooks() {
       const response = await deleteBook(id_book);
       toast.success(response.message);
       fetchData();
-      navigate('/dashboard/books');
+      navigate("/dashboard/books");
     } catch (error) {
       toast.error((error as Error).message);
     }
@@ -48,7 +48,7 @@ export default function AdminBooks() {
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Admin Book</h1>
           <div className="flex items-center gap-4">
-            <AddBook/>
+            <AddBook />
           </div>
         </div>
         <div className="relative w-full max-w-md">
@@ -76,7 +76,7 @@ export default function AdminBooks() {
             </TableHeader>
             <TableBody>
               {data.map((book, index) => (
-                <TableRow key={book.id} className={`transition-colors duration-300 ${index % 2 === 0 ? 'bg-muted/20' : 'bg-muted/10'} hover:bg-muted/30`}>
+                <TableRow key={book.id} className={`transition-colors duration-300 ${index % 2 === 0 ? "bg-muted/20" : "bg-muted/10"} hover:bg-muted/30`}>
                   <TableCell className="font-medium">{index + 1}</TableCell>
                   <TableCell>{book.title}</TableCell>
                   <TableCell>{book.author}</TableCell>
@@ -93,7 +93,6 @@ export default function AdminBooks() {
                       title="Delete Book"
                       description={`Are you sure you want to delete the book titled "${book.title}"? This action cannot be undone.`}
                       onAction={() => handleDelete(book.id)}
-                      
                     >
                       <Button size="icon" variant="ghost">
                         <TrashIcon className="w-5 h-5 text-muted-foreground hover:text-red-500 transition-colors" />

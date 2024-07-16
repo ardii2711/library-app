@@ -1,18 +1,18 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-import { toast } from 'sonner';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { toast } from "sonner";
 
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { CustomFormField } from '@/components/custom-formfield';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Form } from '@/components/ui/form';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { CustomFormField } from "@/components/custom-formfield";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 
-import { addBookSchema, AddBookSchema } from '@/utils/types/books';
-import { addBook } from '@/utils/apis/books';
+import { addBookSchema, AddBookSchema } from "@/utils/types/books";
+import { addBook } from "@/utils/apis/books";
 
 export default function AddBook() {
   const navigate = useNavigate();
@@ -21,12 +21,12 @@ export default function AddBook() {
   const form = useForm<AddBookSchema>({
     resolver: zodResolver(addBookSchema),
     defaultValues: {
-      title: '',
-      cover_image: new File([], ''),
-      author: '',
-      isbn: '',
-      category: '',
-      description: '',
+      title: "",
+      cover_image: new File([], ""),
+      author: "",
+      isbn: "",
+      category: "",
+      description: "",
     },
   });
 
@@ -36,7 +36,7 @@ export default function AddBook() {
 
       toast.success(response.message);
       setOpen(false);
-      navigate('/dashboard/books');
+      navigate("/dashboard/books");
     } catch (error) {
       toast.error((error as Error).message);
     }

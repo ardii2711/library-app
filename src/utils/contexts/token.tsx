@@ -1,10 +1,10 @@
-import Cookies from 'js-cookie';
-import { toast } from 'sonner';
-import { ReactNode, createContext, useMemo, useState, useContext, useCallback, useEffect } from 'react';
+import { ReactNode, createContext, useMemo, useState, useContext, useCallback, useEffect } from "react";
+import { toast } from "sonner";
+import Cookies from "js-cookie";
 
-import { setAxiosConfig } from '@/utils/apis/axios-with-config';
-import { ProfileType } from '@/utils/types/users';
-import { getProfile } from '@/utils/apis/users';
+import { setAxiosConfig } from "@/utils/apis/axios-with-config";
+import { ProfileType } from "@/utils/types/users";
+import { getProfile } from "@/utils/apis/users";
 
 interface Context {
   token: string;
@@ -17,19 +17,19 @@ interface Props {
 }
 
 const contextValue = {
-  token: '',
+  token: "",
   changeToken: () => {},
 };
 
 const TokenContext = createContext<Context>(contextValue);
 
 export const TokenProvider = ({ children }: Props) => {
-  const [token, setToken] = useState(Cookies.get('token') ?? '');
+  const [token, setToken] = useState(Cookies.get("token") ?? "");
   const [user, setUser] = useState<ProfileType>();
 
   useEffect(() => {
     setAxiosConfig(token);
-    token !== '' && fetchProfile();
+    token !== "" && fetchProfile();
   }, [token]);
 
   const fetchProfile = useCallback(async () => {
@@ -44,12 +44,12 @@ export const TokenProvider = ({ children }: Props) => {
 
   const changeToken = useCallback(
     (token?: string) => {
-      const newToken = token ?? '';
+      const newToken = token ?? "";
 
       if (token) {
-        Cookies.set('token', token);
+        Cookies.set("token", token);
       } else {
-        Cookies.remove('token');
+        Cookies.remove("token");
         setUser(undefined);
       }
 
@@ -74,7 +74,7 @@ export function useToken() {
   const context = useContext(TokenContext);
 
   if (context === undefined) {
-    throw new Error('ERROR, useToken must be used within TokenContext');
+    throw new Error("ERROR, useToken must be used within TokenContext");
   }
 
   return context;

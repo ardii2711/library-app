@@ -1,16 +1,16 @@
-import axios from 'axios';
+import axios from "axios";
 
 const axiosWithConfig = axios.create();
-let bearerToken = '';
+let bearerToken = "";
 
 export const setAxiosConfig = (token: string) => {
   bearerToken = token;
 };
 
 axiosWithConfig.interceptors.request.use((axiosConfig) => {
-  axiosConfig.baseURL = 'https://hells-kitchen.onrender.com/api/v1';
+  axiosConfig.baseURL = "https://hells-kitchen.onrender.com/api/v1";
 
-  if (bearerToken !== '') {
+  if (bearerToken !== "") {
     axiosConfig.headers.Authorization = `Bearer ${bearerToken}`;
   }
 
