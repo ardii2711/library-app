@@ -1,14 +1,14 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { toast } from 'sonner';
+import { useEffect, useMemo, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
-import { getDetailBook } from '@/utils/apis/books';
-import { Button } from '@/components/ui/button';
-import Layout from '@/components/layout';
+import { getDetailBook } from "@/utils/apis/books";
+import { Button } from "@/components/ui/button";
+import Layout from "@/components/layout";
 
-import { useToken } from '@/utils/contexts/token';
-import useCartStore from '@/utils/states/borrows';
-import { IBook } from '@/utils/types/books';
+import { useToken } from "@/utils/contexts/token";
+import useCartStore from "@/utils/states/borrows";
+import { IBook } from "@/utils/types/books";
 
 const DetailBook = () => {
   const { addItem, cart } = useCartStore((state) => state);
@@ -40,7 +40,7 @@ const DetailBook = () => {
 
   function handleBorrowBook() {
     addItem(data!);
-    toast.success('Book has been added to cart');
+    toast.success("Book has been added to cart");
   }
 
   return (
@@ -69,12 +69,12 @@ const DetailBook = () => {
             <h1 className="text-4xl font-bold">{data?.title}</h1>
             <p className="text-muted-foreground leading-relaxed">{data?.description}</p>
             <div className="mt-4 flex justify-between items-center">
-              <Link to={'#'} className="text-primary font-medium hover:underline">
+              <Link to={"#"} className="text-primary font-medium hover:underline">
                 Read more
               </Link>
-              {user?.role === 'user' ? (
-                <Button size="lg" className="w-1/3" variant={isInCart ? 'destructive' : 'default'} onClick={() => handleBorrowBook()} disabled={isInCart}>
-                  {isInCart ? 'In Cart' : 'Borrow'}
+              {user?.role === "user" ? (
+                <Button size="lg" className="w-1/3" variant={isInCart ? "destructive" : "default"} onClick={() => handleBorrowBook()} disabled={isInCart}>
+                  {isInCart ? "In Cart" : "Borrow"}
                 </Button>
               ) : null}
             </div>

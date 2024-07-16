@@ -1,12 +1,12 @@
-import { ArrowLeftIcon, XIcon } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { toast } from 'sonner';
+import { ArrowLeftIcon, XIcon } from "lucide-react";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
-import { Button } from '@/components/ui/button';
-import Layout from '@/components/layout';
+import { Button } from "@/components/ui/button";
+import Layout from "@/components/layout";
 
-import useCartStore from '@/utils/states/borrows';
-import { postBorrow } from '@/utils/apis/borrows';
+import useCartStore from "@/utils/states/borrows";
+import { postBorrow } from "@/utils/apis/borrows";
 
 export default function Index() {
   const { cart, removeItem, clearCart } = useCartStore((state) => state);
@@ -31,7 +31,7 @@ export default function Index() {
       <div className="w-full max-w-6xl mx-auto py-8 px-4 md:px-6">
         <header className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Your Borrow Cart</h1>
-          <Link to={'/'} className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
+          <Link to={"/"} className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
             <ArrowLeftIcon className="w-5 h-5" />
             Back
           </Link>

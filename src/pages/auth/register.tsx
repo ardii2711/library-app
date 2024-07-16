@@ -1,16 +1,16 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-import { CustomFormField } from '@/components/custom-formfield';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Form } from '@/components/ui/form';
-import Layout from '@/components/layout';
+import { CustomFormField } from "@/components/custom-formfield";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
+import Layout from "@/components/layout";
 
-import { registerSchema, RegisterSchema } from '@/utils/types/auth';
-import { userRegister } from '@/utils/apis/auth';
+import { registerSchema, RegisterSchema } from "@/utils/types/auth";
+import { userRegister } from "@/utils/apis/auth";
 
 function Register() {
   const navigate = useNavigate();
@@ -18,12 +18,12 @@ function Register() {
   const form = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      full_name: '',
-      email: '',
-      password: '',
-      repassword: '',
-      address: '',
-      phone_number: '',
+      full_name: "",
+      email: "",
+      password: "",
+      repassword: "",
+      address: "",
+      phone_number: "",
     },
   });
 
@@ -32,7 +32,7 @@ function Register() {
       const response = await userRegister(data);
 
       toast.success(response.message);
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
       toast.error((error as Error).message);
     }
@@ -130,8 +130,8 @@ function Register() {
           </Form>
           <div className="text-center">
             <p className="text-muted-foreground">
-              Already have an account?{' '}
-              <Link to={'/login'} className="font-medium text-primary hover:underline">
+              Already have an account?{" "}
+              <Link to={"/login"} className="font-medium text-primary hover:underline">
                 Sign in
               </Link>
             </p>

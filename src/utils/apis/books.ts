@@ -1,13 +1,13 @@
-import axios from 'axios';
+import axios from "axios";
 
-import { AddBookSchema, EditBookSchema, IBook } from '@/utils/types/books';
-import { checkProperty, valueFormatData } from '../functions';
-import { IPagination, IResponse } from '@/utils/types/api';
-import axiosWithConfig from './axios-with-config';
+import { AddBookSchema, EditBookSchema, IBook } from "@/utils/types/books";
+import { checkProperty, valueFormatData } from "../functions";
+import { IPagination, IResponse } from "@/utils/types/api";
+import axiosWithConfig from "./axios-with-config";
 
 export const getBooks = async () => {
   try {
-    const response = await axiosWithConfig.get('/books');
+    const response = await axiosWithConfig.get("/books");
     return response.data as IResponse<IPagination<IBook[]>>;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -16,7 +16,7 @@ export const getBooks = async () => {
         throw new Error(message);
       }
     }
-    throw new Error('An unexpected error occurred');
+    throw new Error("An unexpected error occurred");
   }
 };
 
@@ -31,7 +31,7 @@ export const getDetailBook = async (id_book: number) => {
         throw new Error(message);
       }
     }
-    throw new Error('An unexpected error occurred');
+    throw new Error("An unexpected error occurred");
   }
 };
 
@@ -46,7 +46,7 @@ export const addBook = async (body: AddBookSchema) => {
       }
     }
 
-    const response = await axiosWithConfig.post('/books', formData);
+    const response = await axiosWithConfig.post("/books", formData);
 
     return response.data as IResponse<IBook>;
   } catch (error) {
@@ -56,7 +56,7 @@ export const addBook = async (body: AddBookSchema) => {
         throw new Error(message);
       }
     }
-    throw new Error('An unexpected error occurred');
+    throw new Error("An unexpected error occurred");
   }
 };
 
@@ -80,7 +80,7 @@ export const updateBook = async (id_book: number, body: EditBookSchema) => {
         throw new Error(message);
       }
     }
-    throw new Error('An unexpected error occurred');
+    throw new Error("An unexpected error occurred");
   }
 };
 
@@ -95,6 +95,6 @@ export const deleteBook = async (id_book: number) => {
         throw new Error(message);
       }
     }
-    throw new Error('An unexpected error occurred');
+    throw new Error("An unexpected error occurred");
   }
 };

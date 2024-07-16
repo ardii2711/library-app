@@ -9,9 +9,7 @@ export default function NotFound() {
         <div className="mx-auto max-w-md text-center">
           <div className="mx-auto h-12 w-12 text-primary" />
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">404 - Page Not Found</h1>
-          <p className="mt-4 text-muted-foreground">
-            Oops, the page you are looking for does not exist. Please check the URL or go back to the homepage.
-          </p>
+          <p className="mt-4 text-muted-foreground">Oops, the page you are looking for does not exist. Please check the URL or go back to the homepage.</p>
           <div className="mt-6">
             <Link
               to={"/"}

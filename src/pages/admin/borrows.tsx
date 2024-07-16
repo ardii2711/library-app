@@ -1,17 +1,17 @@
-import { FilePenIcon, SearchIcon, TrashIcon } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { format, isValid } from 'date-fns';
-import { toast } from 'sonner';
+import { FilePenIcon, SearchIcon, TrashIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { format, isValid } from "date-fns";
+import { toast } from "sonner";
 
-import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import Layout from '@/components/layout';
+import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "@/components/ui/table";
+import CustomAlert from "@/components/custom-alert";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Layout from "@/components/layout";
 
-import { getBorrows, deleteBorrow } from '@/utils/apis/borrows';
-import { IBorrow } from '@/utils/types/borrows';
-import CustomAlert from '@/components/custom-alert';
+import { getBorrows, deleteBorrow } from "@/utils/apis/borrows";
+import { IBorrow } from "@/utils/types/borrows";
 
 export default function AdminBorrows() {
   const [borrow, setBorrow] = useState<IBorrow[]>([]);
@@ -22,7 +22,7 @@ export default function AdminBorrows() {
   }, []);
 
   const formatDate = (date: string | null) => {
-    return date && isValid(new Date(date)) ? format(new Date(date), 'dd MMM yyyy') : '-';
+    return date && isValid(new Date(date)) ? format(new Date(date), "dd MMM yyyy") : "-";
   };
 
   async function fetchBorrows() {
@@ -49,8 +49,7 @@ export default function AdminBorrows() {
       <div className="flex flex-col gap-6 p-6 sm:p-8 md:p-10">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Admin Borrow</h1>
-          <div className="flex items-center gap-4">
-          </div>
+          <div className="flex items-center gap-4"></div>
         </div>
         <div className="relative w-full max-w-md">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -77,13 +76,13 @@ export default function AdminBorrows() {
             </TableHeader>
             <TableBody>
               {borrow.map((borrow, index) => (
-                <TableRow key={borrow.id} className={`transition-colors duration-300 ${index % 2 === 0 ? 'bg-muted/20' : 'bg-muted/10'} hover:bg-muted/30`}>
+                <TableRow key={borrow.id} className={`transition-colors duration-300 ${index % 2 === 0 ? "bg-muted/20" : "bg-muted/10"} hover:bg-muted/30`}>
                   <TableCell className="font-medium">{index + 1}</TableCell>
                   <TableCell>{borrow.user.full_name}</TableCell>
                   <TableCell>{borrow.book.title}</TableCell>
                   <TableCell>{formatDate(borrow.borrow_date)}</TableCell>
                   <TableCell>{formatDate(borrow.due_date)}</TableCell>
-                  <TableCell>{formatDate(borrow.return_date ?? '-')}</TableCell>
+                  <TableCell>{formatDate(borrow.return_date ?? "-")}</TableCell>
                   <TableCell className="flex items-center justify-center gap-2">
                     <Button size="icon" variant="ghost" onClick={() => navigate(`/dashboard/borrows/${borrow.id}`)}>
                       <FilePenIcon className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />

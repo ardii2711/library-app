@@ -1,20 +1,20 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
+import { useNavigate, useParams } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { CustomFormField } from '@/components/custom-formfield';
-import { DialogFooter } from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Form } from '@/components/ui/form';
-import Layout from '@/components/layout';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { CustomFormField } from "@/components/custom-formfield";
+import { DialogFooter } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
+import Layout from "@/components/layout";
 
-import { editBookSchema, EditBookSchema, IBook } from '@/utils/types/books';
-import { getBooks, updateBook } from '@/utils/apis/books';
+import { editBookSchema, EditBookSchema, IBook } from "@/utils/types/books";
+import { getBooks, updateBook } from "@/utils/apis/books";
 
 function EditBook() {
   const [data, setData] = useState<IBook[]>([]);
@@ -24,12 +24,12 @@ function EditBook() {
   const form = useForm<EditBookSchema>({
     resolver: zodResolver(editBookSchema),
     defaultValues: {
-      title: '',
-      cover_image: new File([], ''),
-      author: '',
-      isbn: '',
-      category: '',
-      description: '',
+      title: "",
+      cover_image: new File([], ""),
+      author: "",
+      isbn: "",
+      category: "",
+      description: "",
     },
   });
 
@@ -40,11 +40,11 @@ function EditBook() {
   useEffect(() => {
     const book = data.find((book) => book.id === Number(params.id_book));
     if (book) {
-      form.setValue('title', book.title);
-      form.setValue('author', book.author);
-      form.setValue('isbn', book.isbn);
-      form.setValue('category', book.category);
-      form.setValue('description', book.description);
+      form.setValue("title", book.title);
+      form.setValue("author", book.author);
+      form.setValue("isbn", book.isbn);
+      form.setValue("category", book.category);
+      form.setValue("description", book.description);
     }
   }, [data, params.id_book]);
 
@@ -52,7 +52,7 @@ function EditBook() {
     try {
       const response = await updateBook(Number(params.id_book), data);
       toast.success(response.message);
-      navigate('/dashboard/books');
+      navigate("/dashboard/books");
     } catch (error) {
       toast.error((error as Error).message);
     }

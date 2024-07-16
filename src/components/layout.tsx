@@ -1,9 +1,10 @@
-import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData } from "react-router-dom";
+import React from "react";
 
-import Footer from './footer';
-import Header from './header';
-import useTitle from '@/utils/hooks/use-title';
+import Footer from "./footer";
+import Header from "./header";
+
+import useTitle from "@/utils/hooks/use-title";
 
 interface Props {
   children: React.ReactNode;
