@@ -51,7 +51,7 @@ Explore the live demo at: [Library App](https://libraryapp-ardev.vercel.app/)
 
 For collaboration, visit our GitHub repository
 
-- [GitHub Repository](https://github.com/Eco-Points)
+- [GitHub Repository](https://github.com/ardii2711/library-app)
 
 ## 🌟 **Features**
 
